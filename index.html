@@ -36,7 +36,7 @@
         /* --- DYNAMIC GRID & BACKGROUND --- */
         .grid-bg {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0; left: 0; width: 100%; height: 100vh;
             background-image: 
                 linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
@@ -201,6 +201,7 @@
             color: var(--accent-cyan);
             margin: 20px 0;
             font-size: 0.95rem;
+            overflow-wrap: break-word; /* Prevents overflow on mobile */
         }
 
         /* --- FOOTER --- */
@@ -213,9 +214,36 @@
         @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
+        /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .content-section { padding: 25px; margin: 40px 0; }
+            header {
+                min-height: auto;
+                padding-top: 80px;
+                padding-bottom: 60px;
+            }
+
+            h1 { font-size: 2.2rem; margin-bottom: 15px; }
+            
+            .subtitle { 
+                font-size: 0.9rem; 
+                margin-bottom: 30px; 
+            }
+
+            .content-section { 
+                padding: 25px 20px; 
+                margin: 40px 0; 
+            }
+
+            h2 { font-size: 1.6rem; }
+            p { font-size: 1rem; }
+            
+            .cyber-image-container { margin: 25px 0; }
+            
+            .cursor-glow {
+                width: 300px;
+                height: 300px;
+                opacity: 0.6;
+            }
         }
     </style>
 </head>
@@ -234,7 +262,7 @@
             
             <!-- COVER IMAGE (Page 1) -->
             <div class="cyber-image-container">
-                <img src="assets/slide_cover.jpg" alt="You Don't Suck at Prompting. Your Thinking is Messy.">
+                <img src="slide_cover.jpg" alt="You Don't Suck at Prompting. Your Thinking is Messy.">
                 <div class="img-caption">> FIGURE_01: THE_REALITY_CHECK</div>
             </div>
         </header>
@@ -246,7 +274,7 @@
             
             <!-- IMAGE: PROMPT AS PROGRAM (Page 3) -->
             <div class="cyber-image-container">
-                <img src="assets/slide_program.jpg" alt="Prompt as Program vs LLM as Prediction Engine">
+                <img src="slide_program.jpg" alt="Prompt as Program vs LLM as Prediction Engine">
                 <div class="img-caption">> FIGURE_02: PROBABILISTIC_PROGRAMMING</div>
             </div>
 
@@ -265,7 +293,7 @@
             
             <!-- IMAGE: PERMISSION TO FAIL (Page 6) -->
             <div class="cyber-image-container">
-                <img src="assets/slide_fail.jpg" alt="Flowchart: Giving Permission to Fail">
+                <img src="slide_fail.jpg" alt="Flowchart: Giving Permission to Fail">
                 <div class="img-caption">> FIGURE_03: HALLUCINATION_MITIGATION_PROTOCOL</div>
             </div>
 
@@ -282,7 +310,7 @@
             
             <!-- IMAGE: FEW-SHOT (Page 8) -->
             <div class="cyber-image-container">
-                <img src="assets/slide_fewshot.jpg" alt="Zero-Shot vs Few-Shot Diagram">
+                <img src="slide_fewshot.jpg" alt="Zero-Shot vs Few-Shot Diagram">
                 <div class="img-caption">> FIGURE_04: PATTERN_REPLICATION</div>
             </div>
             
@@ -296,7 +324,7 @@
             
             <!-- IMAGE: ADVERSARIAL (Page 10) -->
             <div class="cyber-image-container">
-                <img src="assets/slide_adversarial.jpg" alt="Adversarial Validation Flowchart">
+                <img src="slide_adversarial.jpg" alt="Adversarial Validation Flowchart">
                 <div class="img-caption">> FIGURE_05: COMPETITIVE_GENERATION_LOOP</div>
             </div>
 
@@ -315,7 +343,7 @@
 
             <!-- IMAGE: WORKFLOW (Page 13) -->
             <div class="cyber-image-container">
-                <img src="assets/slide_workflow.jpg" alt="The 4-Step Iterative Process">
+                <img src="slide_workflow.jpg" alt="The 4-Step Iterative Process">
                 <div class="img-caption">> FIGURE_06: THE_CLARITY_CYCLE</div>
             </div>
         </div>
@@ -327,7 +355,7 @@
             
             <!-- IMAGE: TOOLKIT (Page 15) -->
             <div class="cyber-image-container">
-                <img src="assets/slide_toolkit.jpg" alt="Summary Toolkit Checklist">
+                <img src="slide_toolkit.jpg" alt="Summary Toolkit Checklist">
                 <div class="img-caption">> FIGURE_07: FINAL_SYSTEM_CHECK</div>
             </div>
 
@@ -348,9 +376,17 @@
         let mouseX = 0, mouseY = 0;
         let glowX = 0, glowY = 0;
 
+        // Desktop
         document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX; mouseY = e.clientY;
+            mouseX = e.clientX; 
+            mouseY = e.clientY;
         });
+
+        // Mobile / Touch support
+        document.addEventListener('touchmove', (e) => {
+            mouseX = e.touches[0].clientX; 
+            mouseY = e.touches[0].clientY;
+        }, { passive: true });
 
         function animateGlow() {
             glowX += (mouseX - glowX) * 0.1;
